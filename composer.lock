@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92d08e133a64b91333a82347d92a59c4",
+    "content-hash": "79aa7e2085a3d10de5ddd0cf42b00e84",
     "packages": [
         {
             "name": "brick/math",
@@ -4754,6 +4754,10 @@
                 "rest",
                 "service discovery"
             ],
+            "support": {
+                "issues": "https://github.com/zircote/swagger-php/issues",
+                "source": "https://github.com/zircote/swagger-php/tree/3.2.3"
+            },
             "time": "2021-06-25T04:08:57+00:00"
         }
     ],
@@ -6555,5 +6559,6 @@
     "platform": {
         "php": "^7.3|^8.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }
