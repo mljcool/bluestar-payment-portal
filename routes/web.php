@@ -14,5 +14,5 @@
 */
 
 $router->get('/', function () use ($router) {
-    return 'cool';
+    return 'Testing it works';
 });
