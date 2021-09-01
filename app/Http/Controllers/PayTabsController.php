@@ -39,10 +39,37 @@ class PayTabsController extends Controller
     /**
        *  Create Merchant
        * @OA\Post(path="/admin/bluestar-payment-portal/create-merchant",
+       *  tags={"create-merchant"},
+       *     operationId="createMerchant",
+       *     summary="Add new payment merchant",
+       *     description="",
+        * @OA\RequestBody(
+            *       required=true,
+            *       @OA\MediaType(
+            *           mediaType="application/json",
+            *           @OA\Schema(
+            *               type="object",
+            *               @OA\Property(
+            *                   property="title",
+            *                   description="John Merchant",
+            *                   type="string"
+            *               ),
+            *               @OA\Property(
+            *                   property="id",
+            *                   description="randomId",
+            *                   type="string"
+            *               ),
+            *               @OA\Property(
+            *                   property="price",
+            *                   description="48.17",
+            *                   type="string"
+            *               ),
+            *           )
+            *       )
+            *   ),
        *   @OA\Response(
        *      response=200,
        *      description="Set - payment_url",
-       * @OA\RequestBody(
        *      @OA\JsonContent(
        *        @OA\Property(
        *            property="title",
@@ -73,13 +100,12 @@ class PayTabsController extends Controller
        *            type="string",
        *        ),
        *      )
-       *     )
        *   )
        * )
        */
 
 
-    public function createMerchantPagePostStaticData(Request $request)
+    public function createMerchant(Request $request)
     {
         // $headers = $this->input->request_headers();
         // $this->load->model('payments_m');
