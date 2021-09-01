@@ -9,8 +9,7 @@ class ExampleController extends Controller
       /**
      * @OA\Get(
      *     path="/test",
-     *     operationId="/test",
-     *     tags={"Test"},
+     *     tags={"Test API"},
      *     @OA\Response(
      *         response="200",
      *         description="Testing it works",
