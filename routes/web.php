@@ -17,4 +17,4 @@ $router->get('/', function () use ($router) {
     return 'Testing it works';
 });
 
-Route::get('/test', 'ExampleController@index');
+Route::get('/test', 'ExampleController@getThings');
