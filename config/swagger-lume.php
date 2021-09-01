@@ -149,7 +149,7 @@ return [
     | Turn this off to remove swagger generation on production
     |--------------------------------------------------------------------------
      */
-    'generate_always' => env('SWAGGER_GENERATE_ALWAYS', false),
+    'generate_always' => env('SWAGGER_GENERATE_ALWAYS', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -199,6 +199,6 @@ return [
     |--------------------------------------------------------------------------
      */
     'constants' => [
-        // 'SWAGGER_LUME_CONST_HOST' => env('SWAGGER_LUME_CONST_HOST', 'http://my-default-host.com'),
+        'SWAGGER_LUME_CONST_HOST' => env('SWAGGER_LUME_CONST_HOST', 'https://bluestar-app.com/admin/bluestar-payment-portal'),
     ],
 ];
