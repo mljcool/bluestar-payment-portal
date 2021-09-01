@@ -64,6 +64,26 @@ class PayTabsController extends Controller
             *                   description="48.17",
             *                   type="string"
             *               ),
+            *               @OA\Property(
+            *                   property="firstName",
+            *                   description="John",
+            *                   type="string"
+            *               ),
+            *               @OA\Property(
+            *                   property="lastName",
+            *                   description="Doe",
+            *                   type="string"
+            *               ),
+            *               @OA\Property(
+            *                   property="address",
+            *                   description="404, 11th st, void",
+            *                   type="string"
+            *               ),
+            *               @OA\Property(
+            *                   property="city",
+            *                   description="Dubai",
+            *                   type="string"
+            *               ),
             *           )
             *       )
             *   ),
