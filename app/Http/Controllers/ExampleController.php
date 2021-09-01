@@ -28,7 +28,7 @@ class ExampleController extends Controller
         
         // ...
 
-        return 'sample';
+        return 'Api Testing it works';
     }
     //
 }
