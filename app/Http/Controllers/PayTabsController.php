@@ -36,38 +36,23 @@ class PayTabsController extends Controller
         ->json($response);
     }
 
-
     /**
-      * @OA\Post(
-      *     path="/admin/bluestar-payment-portal/create-merchant",
-      *     operationId="placeOrder",
-      *     tags={"create-merchant"},
-      *     @OA\Parameter(
-      *     name = "merchant",
-      *     value = "A JSON value representing a transaction. An example of the expected schema can be found down here. The fields marked with * means that they are required. See the schema of KambiTransaction for more information.",
-      *     required = true,
-      *     dataType = "String",
-      *     paramType = "body",
-      *     examples = @Example(value = {@ExampleProperty(mediaType = "application/json", value = "{
-      *        title: "John Merchant",
-      *        id: "8999",
-      *        price: "46.17",
-      *        firstName: "John",
-      *        lastName: "Smith",
-      *        address: "404, 11th st, void",
-      *        city: "Dubai"
-      *    }))}),
-      *     @OA\Response(
-      *         response="200",
-      *         description="Returns some sample category things",
-      *         @OA\JsonContent()
-      *     ),
-      *     @OA\Response(
-      *         response="400",
-      *         description="Error: Bad request. When required parameters were not supplied.",
-      *     ),
-      * )
-      */
+     * Add a new pet to the store
+     *
+     * @OA\Post(
+     *     path="/pet",
+     *     tags={"pet"},
+     *     operationId="addPet",
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input"
+     *     ),
+     *     security={
+     *         {"petstore_auth": {"write:pets", "read:pets"}}
+     *     },
+     *     requestBody={"$ref": "#/components/requestBodies/Pet"}
+     * )
+     */
 
     public function createMerchantPagePostStaticData(Request $request)
     {
