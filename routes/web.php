@@ -16,3 +16,5 @@
 $router->get('/', function () use ($router) {
     return 'Testing it works';
 });
+
+Route::get('/test', 'ExampleController@index');
