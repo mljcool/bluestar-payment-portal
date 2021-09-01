@@ -37,22 +37,45 @@ class PayTabsController extends Controller
     }
 
     /**
-     * Add a new pet to the store
-     *
-     * @OA\Post(
-     *     path="/pet",
-     *     tags={"pet"},
-     *     operationId="addPet",
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input"
-     *     ),
-     *     security={
-     *         {"petstore_auth": {"write:pets", "read:pets"}}
-     *     },
-     *     requestBody={"$ref": "#/components/requestBodies/Pet"}
-     * )
-     */
+       *  Create Merchant
+       * @OA\Post(path="/admin/bluestar-payment-portal/test",
+       *   @OA\Response(
+       *      response=200,
+       *      description="Get - payment_url",
+       *      @OA\JsonContent(
+       *        @OA\Property(
+       *            property="title",
+       *            type="string",
+       *        ),
+       *        @OA\Property(
+       *            property="id",
+       *            type="string",
+       *        ),
+       *        @OA\Property(
+       *            property="price",
+       *            type="string",
+       *        ),
+       *        @OA\Property(
+       *            property="firstName",
+       *            type="string",
+       *        ),
+       *        @OA\Property(
+       *            property="lastName",
+       *            type="string",
+       *        ),
+       *        @OA\Property(
+       *            property="address",
+       *            type="string",
+       *        ),
+       *        @OA\Property(
+       *            property="city",
+       *            type="string",
+       *        ),
+       *      )
+       *   )
+       * )
+       */
+
 
     public function createMerchantPagePostStaticData(Request $request)
     {
