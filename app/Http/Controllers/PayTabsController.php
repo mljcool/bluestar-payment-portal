@@ -38,10 +38,10 @@ class PayTabsController extends Controller
 
     /**
        *  Create Merchant
-       * @OA\Post(path="/admin/bluestar-payment-portal/test",
+       * @OA\Post(path="/admin/bluestar-payment-portal/create-merchant",
        *   @OA\Response(
        *      response=200,
-       *      description="Get - payment_url",
+       *      description="Set - payment_url",
        *      @OA\JsonContent(
        *        @OA\Property(
        *            property="title",
