@@ -37,22 +37,56 @@ class PayTabsController extends Controller
     }
 
 
+    /**
+      * @OA\Post(
+      *     path="/admin/bluestar-payment-portal/create-merchant",
+      *     operationId="placeOrder",
+      *     tags={"create-merchant"},
+      *     @OA\Parameter(
+      *     name = "merchant",
+      *     value = "A JSON value representing a transaction. An example of the expected schema can be found down here. The fields marked with * means that they are required. See the schema of KambiTransaction for more information.",
+      *     required = true,
+      *     dataType = "String",
+      *     paramType = "body",
+      *     examples = @Example(value = {@ExampleProperty(mediaType = "application/json", value = "{
+      *        title: "John Merchant",
+      *        id: "8999",
+      *        price: "46.17",
+      *        firstName: "John",
+      *        lastName: "Smith",
+      *        address: "404, 11th st, void",
+      *        city: "Dubai"
+      *    }))}),
+      *     @OA\Response(
+      *         response="200",
+      *         description="Returns some sample category things",
+      *         @OA\JsonContent()
+      *     ),
+      *     @OA\Response(
+      *         response="400",
+      *         description="Error: Bad request. When required parameters were not supplied.",
+      *     ),
+      * )
+      */
+
     public function createMerchantPagePostStaticData(Request $request)
     {
         // $headers = $this->input->request_headers();
         // $this->load->model('payments_m');
         // $values = $this->post();
+        // 19301
+        // 75195
         $values = $request->json();
         try {
             $data = array(
-              "profile_id"=>         52842,
+              "profile_id"=>         19301,
               "tran_type"=>          "sale",
               "tran_class"=>         "ecom",
               "cart_description"=>   $values->get('title'),
               "cart_id"=>            $values->get('id')."",
               "cart_currency"=>      "SAR",
               "cart_amount"=>        $values->get('price'),
-              "return"=>             url('payments/new_payment?payment_id='.$values->get('price')),
+              "return"=>             url('payments/new_payment?payment_id='.$values->get('id')),
               "customer_details"=> array(
                   "name"=> $values->get('firstName')." ".$values->get('lastName'),
                   "email"=> "receipts@aph.med.sa",
@@ -97,7 +131,7 @@ class PayTabsController extends Controller
             // Free up the resources $curl is using
             curl_close($curl);
             $data = json_decode($result, true);
-            // $data["payment_url"] = $data["redirect_url"];
+            $data["payment_url"] = $data["redirect_url"];
     
             // $this->payments_m->save(
             //     array(
@@ -108,7 +142,7 @@ class PayTabsController extends Controller
     
             // $this->response($data, $httpcode);
             return response()
-            ->json(['data'=> $data, 'httpcode'=> $httpcode]);
+            ->json(['data'=> $data, 'payment_url'=>$data["payment_url"] , 'httpcode'=> $httpcode]);
         } catch (Exception $e) {
             // $this->response(array("message"=>"دخول غير مرخص"), 401);
             return response()
