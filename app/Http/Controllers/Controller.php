@@ -8,10 +8,10 @@ class Controller extends BaseController
 {
      /**
      * @OA\Info(
-     *   title="Example API",
+     *   title="Blue-star API for paytabs ",
      *   version="1.0",
      *   @OA\Contact(
-     *     email="support@example.com",
+     *     email="alecogkram@gmail.com",
      *     name="Support Team"
      *   )
      * )
