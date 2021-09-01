@@ -42,6 +42,7 @@ class PayTabsController extends Controller
        *   @OA\Response(
        *      response=200,
        *      description="Set - payment_url",
+       * @OA\RequestBody(
        *      @OA\JsonContent(
        *        @OA\Property(
        *            property="title",
@@ -72,6 +73,7 @@ class PayTabsController extends Controller
        *            type="string",
        *        ),
        *      )
+       *     )
        *   )
        * )
        */
