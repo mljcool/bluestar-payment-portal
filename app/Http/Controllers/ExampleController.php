@@ -8,7 +8,7 @@ class ExampleController extends Controller
    
       /**
      * @OA\Get(
-     *     path="/test",
+     *     path="/admin/bluestar-payment-portal/test",
      *     tags={"Test API"},
      *     @OA\Response(
      *         response="200",
