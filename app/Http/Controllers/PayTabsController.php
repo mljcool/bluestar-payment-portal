@@ -52,7 +52,7 @@ class PayTabsController extends Controller
               "cart_id"=>            $values->get('id')."",
               "cart_currency"=>      "SAR",
               "cart_amount"=>        $values->get('price'),
-              "return"=>             base_url('payments/new_payment?payment_id='.$values->get('price')),
+              "return"=>             url('payments/new_payment?payment_id='.$values->get('price')),
               "customer_details"=> array(
                   "name"=> $values->get('firstName')." ".$values->get('lastName'),
                   "email"=> "receipts@aph.med.sa",
@@ -112,7 +112,7 @@ class PayTabsController extends Controller
         } catch (Exception $e) {
             // $this->response(array("message"=>"دخول غير مرخص"), 401);
             return response()
-            ->json(["message"=>"دخول غير مرخص"]);
+            ->json(["message"=>"دخول غير مرخص", "status"=> 401]);
         }
     }
 }
