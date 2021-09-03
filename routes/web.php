@@ -18,6 +18,9 @@ $router->get('/', function () use ($router) {
 });
 
 Route::get('/test', 'ExampleController@getThings');
+Route::get('/get-data', 'ExampleController@getSampleData');
+Route::post('/get-save', 'ExampleController@getSampleSave');
 Route::get('/curl', 'PayTabsController@simpleCurl');
 Route::post('/sample', 'PayTabsController@playGround');
 Route::post('/create-merchant', 'PayTabsController@createMerchant');
+Route::get('/payments/new_payment', 'PaytabsCallBackController@newPayment');

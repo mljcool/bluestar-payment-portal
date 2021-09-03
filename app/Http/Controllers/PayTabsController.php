@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\Payments;
 
 class PayTabsController extends Controller
 {
@@ -55,7 +56,7 @@ class PayTabsController extends Controller
             *                   type="string"
             *               ),
             *               @OA\Property(
-            *                   property="id",
+            *                   property="cart_id",
             *                   description="randomId",
             *                   type="string"
             *               ),
@@ -72,6 +73,11 @@ class PayTabsController extends Controller
             *               @OA\Property(
             *                   property="lastName",
             *                   description="Doe",
+            *                   type="string"
+            *               ),
+            *               @OA\Property(
+            *                   property="email",
+            *                   description="email",
             *                   type="string"
             *               ),
             *               @OA\Property(
@@ -138,14 +144,14 @@ class PayTabsController extends Controller
               "profile_id"=>         75195,
               "tran_type"=>          "sale",
               "tran_class"=>         "ecom",
-              "cart_description"=>   $values->get('title'),
-              "cart_id"=>            $values->get('id')."",
               "cart_currency"=>      "SAR",
+              "cart_description"=>   $values->get('title'),
+              "cart_id"=>            $values->get('cart_id')."",
               "cart_amount"=>        $values->get('price'),
-              "return"=>             url('payments/new_payment?payment_id='.$values->get('id')),
+              "return"=>             url('payments/new_payment?payment_id='.$values->get('cart_id')),
               "customer_details"=> array(
                   "name"=> $values->get('firstName')." ".$values->get('lastName'),
-                  "email"=> "receipts@aph.med.sa",
+                  "email"=> $values->get('email'),
                   "street1"=> $values->get('address'),
                   "city"=> $values->get('city'),
                   "country"=> "AE",
@@ -153,7 +159,7 @@ class PayTabsController extends Controller
               ),
                "shipping_details"=> array(
                   "name"=> $values->get('firstName')." ".$values->get('lastName'),
-                  "email"=> "receipts@aph.med.sa",
+                  "email"=> $values->get('email'),
                   "street1"=> $values->get('address'),
                   "city"=> $values->get('city'),
                   "country"=> "AE",
@@ -188,6 +194,15 @@ class PayTabsController extends Controller
             curl_close($curl);
             $data = json_decode($result, true);
             $data["payment_url"] = $data["redirect_url"];
+
+            $payment = Payments::create([
+                'tran_ref' => $data["tran_ref"],
+                'cart_id' => $values->get('cart_id'),
+                'user_id' =>  $values->get('email'), // since its a consultants service
+                'return_url' =>  url('payments/new_payment?payment_id='.$values->get('cart_id')), // since its a consultants service
+                'redirect_url' => $data["payment_url"], // since its a consultants service
+                'status' => 1,
+            ]);
     
             // $this->payments_m->save(
             //     array(
@@ -200,7 +215,6 @@ class PayTabsController extends Controller
             return response()
             ->json(['data'=> $data, 'payment_url'=>$data["payment_url"] , 'httpcode'=> $httpcode]);
         } catch (Exception $e) {
-            // $this->response(array("message"=>"دخول غير مرخص"), 401);
             return response()
             ->json(["message"=>"دخول غير مرخص", "status"=> 401]);
         }
