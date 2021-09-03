@@ -10,10 +10,38 @@ class PaytabsCallBackController extends Controller
 {
     //
 
-    public function newPaymentSample()
-    {
-        return 'COOL';
-    }
+    /**
+     * @OA\Get(
+     *     path="/admin/bluestar-payment-portal/payments/new_payment?payment_id",
+     *     tags={"new-payment"},
+     *     operationId="createPayment",
+     *     summary="Add new payment",
+     *     description="",
+     *     @OA\Parameter(
+     *         name="payment_id",
+     *         in="query",
+     *         description="redirect URL after payment",
+     *         required=true,
+     *         @OA\Schema(
+     *         type="array",
+     *           @OA\Items(
+     *               type="string",
+     *               default="available"
+     *           ),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="JSON formatted",
+     *         @OA\JsonContent()
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Error: Bad request. When required parameters were not supplied.",
+     *     ),
+     * )
+     */
 
     public function newPayment(Request $request)
     {
