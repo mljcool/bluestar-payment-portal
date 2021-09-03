@@ -12,23 +12,20 @@ class PaytabsCallBackController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/admin/bluestar-payment-portal/payments/new_payment?payment_id",
+     *     path="/admin/bluestar-payment-portal/payments/new_payment?payment_id={payment_id}",
      *     tags={"new-payment"},
      *     operationId="createPayment",
      *     summary="Add new payment",
      *     description="",
      *     @OA\Parameter(
      *         name="payment_id",
-     *         in="query",
+     *         in="path",
      *         description="redirect URL after payment",
      *         required=true,
-     *         @OA\Schema(
-     *         type="array",
-     *           @OA\Items(
-     *               type="string",
-     *               default="available"
-     *           ),
-     *         ),
+     *       @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *         )
      *         style="form"
      *     ),
      *     @OA\Response(
