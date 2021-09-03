@@ -11,7 +11,7 @@ class PaytabsCallBackController extends Controller
     //
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *     path="/admin/bluestar-payment-portal/payments/new_payment?payment_id={payment_id}",
      *     tags={"new-payment"},
      *     operationId="createPayment",
