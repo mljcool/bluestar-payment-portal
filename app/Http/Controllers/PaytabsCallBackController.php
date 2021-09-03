@@ -22,11 +22,10 @@ class PaytabsCallBackController extends Controller
      *         in="path",
      *         description="redirect URL after payment",
      *         required=true,
-     *       @OA\Schema(
+     *         @OA\Schema(
      *           type="integer",
      *           format="int64"
-     *         )
-     *         style="form"
+     *         ),
      *     ),
      *     @OA\Response(
      *         response="200",
