@@ -14,17 +14,16 @@ class PaymentDetails extends Controller
      * @OA\Get(
      *     path="/admin/bluestar-payment-portal/payments/details?payment_id={payment_id}",
      *     tags={"payment-details"},
-     *     operationId="createPayment",
-     *     summary="Add new payment",
+     *     operationId="paymentDetails",
+     *     summary="Check Details",
      *     description="",
      *     @OA\Parameter(
      *         name="payment_id",
      *         in="path",
-     *         description="redirect URL after payment",
+     *         description="get merchang and callback details",
      *         required=true,
      *         @OA\Schema(
-     *           type="integer",
-     *           format="int64"
+     *           type="string",
      *         ),
      *     ),
      *     @OA\Response(
