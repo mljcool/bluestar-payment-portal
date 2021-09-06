@@ -134,25 +134,22 @@ class PayTabsController extends Controller
 
     public function createMerchant(Request $request)
     {
-        // $headers = $this->input->request_headers();
-        // $this->load->model('payments_m');
-        // $values = $this->post();
-        // 19301
-        // 75195
+        $prod_mode_id = 75195;
+        $test_mode_id = 68317;
 
-        $card_id = $this->generateRandomString();
-        $title = $card_id."_merchant_service_id";
+        $payment_id = $this->generateRandomString();
+        $title = $payment_id."_merchant_service_id";
         $values = $request->json();
         try {
             $data = array(
-              "profile_id"=>         75195,
+              "profile_id"=>         $test_mode_id,
               "tran_type"=>          "sale",
               "tran_class"=>         "ecom",
               "cart_currency"=>      "SAR",
               "cart_description"=>   $title,
-              "cart_id"=>            $card_id."",
+              "cart_id"=>            $payment_id."",
               "cart_amount"=>        $values->get('price'),
-              "return"=>             url('payments/new_payment?payment_id='.$card_id),
+              "return"=>             url('payments/new_payment?payment_id='.$payment_id),
               "customer_details"=> array(
                   "name"=> $values->get('firstName')." ".$values->get('lastName'),
                   "email"=> $values->get('email'),
@@ -170,11 +167,14 @@ class PayTabsController extends Controller
                   "ip"=> "94.204.129.89"
                )
                );
-    
+            
+            $test_api_keys = 'S6JNRNDJWG-JB9GZDRNHZ-DLRMHH9KTJ';
+            $live_api_keys = 'SBJNRNDJHM-J2DZGMHZD6-TZDNHBGJTW';
+
             $fields_string = json_encode($data);
             $headers = array(
               'Content-Type:application/json',
-              'Authorization:SZJNRNDJZK-J2BZT6ZKTH-BJZGMKHRJW',
+              'Authorization:'.$test_api_keys,
             );
     
             $curl = curl_init('https://secure.paytabs.sa/payment/request');
@@ -201,22 +201,14 @@ class PayTabsController extends Controller
 
             $payment = Payments::create([
                 'tran_ref' => $data["tran_ref"],
-                'cart_id' => $card_id,
+                'payment_id' => $payment_id,
                 'cart_description' => $title,
                 'user_id' =>  $values->get('email'), // since its a consultants service
-                'return_url' =>  url('payments/new_payment?payment_id='.$card_id), // since its a consultants service
+                'return_url' =>  url('payments/new_payment?payment_id='.$payment_id), // since its a consultants service
                 'redirect_url' => $data["payment_url"], // since its a consultants service
                 'status' => 1,
             ]);
     
-            // $this->payments_m->save(
-            //     array(
-            //     "payment_id"=>$data["tran_ref"]
-            //   ),
-            //     $payment["id"]
-            // );
-    
-            // $this->response($data, $httpcode);
             return response()
             ->json(['data'=> $data, 'payment_url'=>$data["payment_url"] , 'httpcode'=> $httpcode]);
         } catch (Exception $e) {

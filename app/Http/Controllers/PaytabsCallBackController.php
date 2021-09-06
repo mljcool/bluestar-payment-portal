@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Payments;
+use App\Models\PaymentCallBack;
 
 class PaytabsCallBackController extends Controller
 {
@@ -41,22 +42,32 @@ class PaytabsCallBackController extends Controller
 
     public function newPayment(Request $request)
     {
-        // $this->load->model('payments_m');
+        $prod_mode_id = 75195;
+        $test_mode_id = 68317;
+
         $get_payment_id = $request->payment_id;
        
-        $payment = Payments::where('cart_id', $get_payment_id)->first();
+        $payment = Payments::where('payment_id', $get_payment_id)->first();
+
+
+
         $appointmentResult = "";
         
         if (isset($get_payment_id)) {
             $data = array(
-                'profile_id'=> 75195,
+                'profile_id'=> $test_mode_id,
                 'tran_ref' => $payment->tran_ref,
+                'tran_type' => 'sale',
               );
+
             $fields_string = json_encode($data);
-        
+              
+            $test_api_keys = 'S6JNRNDJWG-JB9GZDRNHZ-DLRMHH9KTJ';
+            $live_api_keys = 'SBJNRNDJHM-J2DZGMHZD6-TZDNHBGJTW';
+
             $headers = array(
                 'Content-Type: application/json',
-                'Authorization: SZJNRNDJZK-J2BZT6ZKTH-BJZGMKHRJW',
+                'Authorization:'.$test_api_keys,
               );
         
             $curl = curl_init('https://secure.paytabs.sa/payment/query');
@@ -85,7 +96,7 @@ class PaytabsCallBackController extends Controller
                   "result"=>$data["payment_result"]["response_message"],
                   "payment_reference"=>$data["payment_result"]["response_code"],
                   "response_code"=>100,
-                  "amount"=>$data["cart_amount"],
+                  "amount"=> floatval($data["cart_amount"]),
                   "currency"=>$data["cart_currency"],
                   "transaction_id"=>$data["tran_ref"],
                   "card_brand"=>$data["payment_info"]["card_scheme"],
@@ -105,13 +116,21 @@ class PaytabsCallBackController extends Controller
             }
         
             $paymentData["invoice_return_val"] = $appointmentResult;
-            // $this->payments_m->save($paymentData, $get_payment_id["payment_id"]);
-        
-            // Redirect to the deep link
+
+            $final_format = array_merge($paymentData, [
+              'payment_id' => $get_payment_id
+            ]);
+            $payment_callback = PaymentCallBack::create($final_format);
             
-            return response()
-            ->json(['data'=> $paymentData, 'redirect_link'=>$payment->return_url]);
-            ;
+            if ($payment_callback) {
+                return response()
+              ->json(['data'=> $paymentData, 'redirect_link'=>$payment->return_url]);
+            } else {
+                return response()
+              ->json(['data'=> [
+                'error' => 500,
+                'message' => 'something went wrong']]);
+            }
         }
     }
 }

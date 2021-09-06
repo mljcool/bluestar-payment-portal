@@ -1,22 +1,25 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Payments extends Model
+class PaymentCallBack extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'tran_ref',
         'payment_id',
-        'cart_description',
-        'return_url',
-        'redirect_url',
-        'status'
+        'transaction_id',
+        'payment_reference',
+        'response_code',
+        'amount',
+        'currency',
+        'card_brand',
+        'card_first_six_digits',
+        'card_last_four_digits',
     ];
 
     protected $hidden = [
