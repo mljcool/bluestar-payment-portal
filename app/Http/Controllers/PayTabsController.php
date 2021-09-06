@@ -120,7 +120,7 @@ class PayTabsController extends Controller
        * )
        */
 
-    public function generateRandomString($length = 10)
+    public function generateRandomString($length = 20)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -134,15 +134,16 @@ class PayTabsController extends Controller
 
     public function createMerchant(Request $request)
     {
-        $prod_mode_id = 75195;
-        $test_mode_id = 68317;
+        $paytabs_config = (new KeySettings())->getPayTabsKeys();
 
         $payment_id = $this->generateRandomString();
         $title = $payment_id."_merchant_service_id";
         $values = $request->json();
+
+
         try {
             $data = array(
-              "profile_id"=>         $test_mode_id,
+              "profile_id"=>         $paytabs_config->profile_id,
               "tran_type"=>          "sale",
               "tran_class"=>         "ecom",
               "cart_currency"=>      "SAR",
@@ -168,13 +169,11 @@ class PayTabsController extends Controller
                )
                );
             
-            $test_api_keys = 'S6JNRNDJWG-JB9GZDRNHZ-DLRMHH9KTJ';
-            $live_api_keys = 'SBJNRNDJHM-J2DZGMHZD6-TZDNHBGJTW';
 
             $fields_string = json_encode($data);
             $headers = array(
               'Content-Type:application/json',
-              'Authorization:'.$test_api_keys,
+              'Authorization:'.$paytabs_config->api_key,
             );
     
             $curl = curl_init('https://secure.paytabs.sa/payment/request');

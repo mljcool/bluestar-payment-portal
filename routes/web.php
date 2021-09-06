@@ -19,8 +19,11 @@ $router->get('/', function () use ($router) {
 
 Route::get('/test', 'ExampleController@getThings');
 Route::get('/get-data', 'ExampleController@getSampleData');
-Route::post('/get-save', 'ExampleController@getSampleSave');
+Route::get('/get-env', 'ExampleController@getSampleEnv');
 Route::get('/curl', 'PayTabsController@simpleCurl');
 Route::post('/sample', 'PayTabsController@playGround');
+
+
+// main running routes
 Route::post('/create-merchant', 'PayTabsController@createMerchant');
 Route::post('/payments/new_payment', 'PaytabsCallBackController@newPayment');

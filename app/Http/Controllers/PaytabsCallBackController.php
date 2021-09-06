@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Payments;
 use App\Models\PaymentCallBack;
+use App\Http\Controllers\KeySettings;
 
 class PaytabsCallBackController extends Controller
 {
@@ -42,32 +43,28 @@ class PaytabsCallBackController extends Controller
 
     public function newPayment(Request $request)
     {
-        $prod_mode_id = 75195;
-        $test_mode_id = 68317;
+        $paytabs_config = (new KeySettings())->getPayTabsKeys();
 
         $get_payment_id = $request->payment_id;
        
         $payment = Payments::where('payment_id', $get_payment_id)->first();
 
 
-
         $appointmentResult = "";
         
         if (isset($get_payment_id)) {
             $data = array(
-                'profile_id'=> $test_mode_id,
+                'profile_id'=> $paytabs_config->profile_id,
                 'tran_ref' => $payment->tran_ref,
                 'tran_type' => 'sale',
               );
 
             $fields_string = json_encode($data);
               
-            $test_api_keys = 'S6JNRNDJWG-JB9GZDRNHZ-DLRMHH9KTJ';
-            $live_api_keys = 'SBJNRNDJHM-J2DZGMHZD6-TZDNHBGJTW';
 
             $headers = array(
                 'Content-Type: application/json',
-                'Authorization:'.$test_api_keys,
+                'Authorization:'.$paytabs_config->api_key,
               );
         
             $curl = curl_init('https://secure.paytabs.sa/payment/query');
@@ -77,8 +74,8 @@ class PaytabsCallBackController extends Controller
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  // Make it so the data coming back is put into a string
-              curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);  // Insert the data
-              curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);  // Insert the data
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_TIMEOUT, 30);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -124,7 +121,7 @@ class PaytabsCallBackController extends Controller
             
             if ($payment_callback) {
                 return response()
-              ->json(['data'=> $paymentData, 'redirect_link'=>$payment->return_url]);
+              ->json(['data'=> $paymentData, 'redirect_link'=>'bluestar://payment?paymentId='.$get_payment_id]);
             } else {
                 return response()
               ->json(['data'=> [
