@@ -120,8 +120,7 @@ class PaytabsCallBackController extends Controller
             $payment_callback = PaymentCallBack::create($final_format);
             
             if ($payment_callback) {
-                return response()
-              ->json(['data'=> $paymentData, 'redirect_link'=>'bluestar://payment?paymentId='.$get_payment_id]);
+                return redirect('bluestar://payment?paymentId='.$get_payment_id);
             } else {
                 return response()
               ->json(['data'=> [

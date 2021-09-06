@@ -27,3 +27,4 @@ Route::post('/sample', 'PayTabsController@playGround');
 // main running routes
 Route::post('/create-merchant', 'PayTabsController@createMerchant');
 Route::post('/payments/new_payment', 'PaytabsCallBackController@newPayment');
+Route::get('/payments/details', 'PaymentDetails@getPaymentDetails');
