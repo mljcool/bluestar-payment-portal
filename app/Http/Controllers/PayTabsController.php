@@ -51,16 +51,6 @@ class PayTabsController extends Controller
             *           @OA\Schema(
             *               type="object",
             *               @OA\Property(
-            *                   property="title",
-            *                   description="John Merchant",
-            *                   type="string"
-            *               ),
-            *               @OA\Property(
-            *                   property="cart_id",
-            *                   description="randomId",
-            *                   type="string"
-            *               ),
-            *               @OA\Property(
             *                   property="price",
             *                   description="48.17",
             *                   type="string"
@@ -130,6 +120,17 @@ class PayTabsController extends Controller
        * )
        */
 
+    public function generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
 
     public function createMerchant(Request $request)
     {
@@ -138,6 +139,9 @@ class PayTabsController extends Controller
         // $values = $this->post();
         // 19301
         // 75195
+
+        $card_id = $this->generateRandomString();
+        $title = $card_id."_merchant_service_id";
         $values = $request->json();
         try {
             $data = array(
@@ -145,10 +149,10 @@ class PayTabsController extends Controller
               "tran_type"=>          "sale",
               "tran_class"=>         "ecom",
               "cart_currency"=>      "SAR",
-              "cart_description"=>   $values->get('title'),
-              "cart_id"=>            $values->get('cart_id')."",
+              "cart_description"=>   $title,
+              "cart_id"=>            $card_id."",
               "cart_amount"=>        $values->get('price'),
-              "return"=>             url('payments/new_payment?payment_id='.$values->get('cart_id')),
+              "return"=>             url('payments/new_payment?payment_id='.$card_id),
               "customer_details"=> array(
                   "name"=> $values->get('firstName')." ".$values->get('lastName'),
                   "email"=> $values->get('email'),
@@ -197,9 +201,10 @@ class PayTabsController extends Controller
 
             $payment = Payments::create([
                 'tran_ref' => $data["tran_ref"],
-                'cart_id' => $values->get('cart_id'),
+                'cart_id' => $card_id,
+                'cart_description' => $title,
                 'user_id' =>  $values->get('email'), // since its a consultants service
-                'return_url' =>  url('payments/new_payment?payment_id='.$values->get('cart_id')), // since its a consultants service
+                'return_url' =>  url('payments/new_payment?payment_id='.$card_id), // since its a consultants service
                 'redirect_url' => $data["payment_url"], // since its a consultants service
                 'status' => 1,
             ]);

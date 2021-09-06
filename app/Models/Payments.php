@@ -13,6 +13,7 @@ class Payments extends Model
         'user_id',
         'tran_ref',
         'cart_id',
+        'cart_description',
         'return_url',
         'redirect_url',
         'status'
