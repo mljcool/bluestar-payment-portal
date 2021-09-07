@@ -91,8 +91,8 @@ class PaytabsCallBackController extends Controller
             if ($data["payment_result"]["response_status"] == "A") {
                 $paymentData = array(
                   "result"=>$data["payment_result"]["response_message"],
-                  "payment_reference"=>$data["payment_result"]["response_code"],
-                  "response_code"=>100,
+                  "payment_reference"=>$data["trace"],
+                  "response_code"=>0,
                   "amount"=> floatval($data["cart_amount"]),
                   "currency"=>$data["cart_currency"],
                   "transaction_id"=>$data["tran_ref"],
@@ -103,9 +103,8 @@ class PaytabsCallBackController extends Controller
             } else {
                 $paymentData = array(
                   "result"=>$data["payment_result"]["response_message"],
-                  "payment_reference"=>$data["payment_result"]["response_code"],
-                  "response_code"=>400,
-                  // "pt_invoice_id"=>$data["pt_invoice_id"],
+                  "payment_reference"=>$data["trace"],
+                  "response_code"=>$data["payment_result"]["response_code"],
                   "amount"=>$data["cart_amount"],
                   "currency"=>$data["cart_currency"],
                   "transaction_id"=>$data["tran_ref"]
@@ -127,6 +126,8 @@ class PaytabsCallBackController extends Controller
                 'error' => 500,
                 'message' => 'something went wrong']]);
             }
+            // return response()
+            // ->json(['data'=> $data ]);
         }
     }
 }
