@@ -14,6 +14,7 @@ class PaymentCallBack extends Model
         'payment_id',
         'transaction_id',
         'payment_reference',
+        'result',
         'response_code',
         'amount',
         'currency',
